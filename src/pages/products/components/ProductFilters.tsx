@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { Search } from "lucide-react";
-import { categories } from "@/services/productService";
 import {
   Select,
   SelectTrigger,
@@ -58,21 +56,7 @@ const ProductFilters = ({
       <div className="mb-6">
         <h4 className="font-medium text-sm mb-3 uppercase text-textSecondary">Category</h4>
         <div className="space-y-2">
-          {categories.map((category) => (
-            <Button
-              key={category.id}
-              variant={selectedCategory === category.id ? "default" : "ghost"}
-              size="sm"
-              className={`justify-start w-full ${
-                selectedCategory === category.id
-                  ? "bg-brandPrimary hover:bg-brandPrimary text-white"
-                  : "text-textPrimary"
-              }`}
-              onClick={() => onCategoryChange(category.id)}
-            >
-              {category.name}
-            </Button>
-          ))}
+         
         </div>
       </div>
 

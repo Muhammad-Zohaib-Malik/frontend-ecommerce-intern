@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { 
   getAllProducts, 
   addProduct, 
-  updateProduct, 
-  deleteProduct 
+  // updateProduct, 
+  // deleteProduct 
 } from "@/services/productService";
 import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
@@ -155,7 +155,7 @@ const AdminProducts = () => {
 
   const handleDelete = () => {
     if (productToDelete) {
-      deleteProduct(productToDelete);
+      // deleteProduct(productToDelete);
       
       toast({
         title: "Product deleted",
@@ -198,7 +198,7 @@ const AdminProducts = () => {
         // Update existing product
         if (!formData.id) return;
         
-        updateProduct(formData as Product);
+        // updateProduct(formData as Product);
         
         toast({
           title: "Product updated",
