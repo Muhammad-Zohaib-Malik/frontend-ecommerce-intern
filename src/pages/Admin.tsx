@@ -258,7 +258,7 @@ const AdminProducts = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {products.length > 0 ? (
+              {products?.length > 0 ? (
                 products.map((product) => (
                   <TableRow key={product.id}>
                     <TableCell>
