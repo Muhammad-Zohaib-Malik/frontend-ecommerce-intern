@@ -28,16 +28,7 @@ const Navbar = () => {
             ShopNest
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
-            <Link to="/" className="text-textPrimary hover:text-brandPrimary transition-colors">
-              Home
-            </Link>
-            <Link to="/products" className="text-textPrimary hover:text-brandPrimary transition-colors">
-              Shop
-            </Link>
-          </div>
-
+          
           {/* Desktop Search, Cart, and Account */}
           <div className="hidden md:flex items-center space-x-4">
             {/* Search */}
