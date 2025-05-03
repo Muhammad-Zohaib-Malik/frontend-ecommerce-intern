@@ -36,12 +36,6 @@ const Navbar = () => {
             <Link to="/products" className="text-textPrimary hover:text-brandPrimary transition-colors">
               Shop
             </Link>
-            <Link to="/about" className="text-textPrimary hover:text-brandPrimary transition-colors">
-              About
-            </Link>
-            <Link to="/contact" className="text-textPrimary hover:text-brandPrimary transition-colors">
-              Contact
-            </Link>
           </div>
 
           {/* Desktop Search, Cart, and Account */}
@@ -79,12 +73,6 @@ const Navbar = () => {
                     <p className="font-medium">{user?.name}</p>
                     <p className="text-sm text-textSecondary">{user?.email}</p>
                   </div>
-                  <Link to="/profile">
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                  </Link>
-                  <Link to="/orders">
-                    <DropdownMenuItem>Orders</DropdownMenuItem>
-                  </Link>
                   {isAdmin && (
                     <Link to="/admin">
                       <DropdownMenuItem>Admin Dashboard</DropdownMenuItem>

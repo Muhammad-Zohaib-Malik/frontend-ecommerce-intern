@@ -21,10 +21,8 @@ interface ProductFiltersProps {
 }
 
 const ProductFilters = ({
-  selectedCategory,
   searchTerm,
   priceRange,
-  onCategoryChange,
   onSearchChange,
   onSearchSubmit,
   onPriceRangeChange
@@ -52,13 +50,6 @@ const ProductFilters = ({
         </div>
       </form>
 
-      {/* Category Filter */}
-      <div className="mb-6">
-        <h4 className="font-medium text-sm mb-3 uppercase text-textSecondary">Category</h4>
-        <div className="space-y-2">
-         
-        </div>
-      </div>
 
       {/* Price Range Filter */}
       <div className="mb-6">
