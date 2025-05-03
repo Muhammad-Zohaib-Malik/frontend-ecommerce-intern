@@ -83,66 +83,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Categories Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">Shop By Category</h2>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Link to="/products?category=sneakers" className="group">
-              <div className="relative h-40 md:h-52 rounded-lg overflow-hidden bg-gray-100">
-                <img 
-                  src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9" 
-                  alt="Sneakers" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-                  <span className="text-white font-semibold text-xl">Sneakers</span>
-                </div>
-              </div>
-            </Link>
-            
-            <Link to="/products?category=clothing" className="group">
-              <div className="relative h-40 md:h-52 rounded-lg overflow-hidden bg-gray-100">
-                <img 
-                  src="https://images.unsplash.com/photo-1487958449943-2429e8be8625" 
-                  alt="Clothing" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-                  <span className="text-white font-semibold text-xl">Clothing</span>
-                </div>
-              </div>
-            </Link>
-            
-            <Link to="/products?category=electronics" className="group">
-              <div className="relative h-40 md:h-52 rounded-lg overflow-hidden bg-gray-100">
-                <img 
-                  src="https://images.unsplash.com/photo-1582562124811-c09040d0a901" 
-                  alt="Electronics" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-                  <span className="text-white font-semibold text-xl">Electronics</span>
-                </div>
-              </div>
-            </Link>
-            
-            <Link to="/products?category=home" className="group">
-              <div className="relative h-40 md:h-52 rounded-lg overflow-hidden bg-gray-100">
-                <img 
-                  src="https://images.unsplash.com/photo-1721322800607-8c38375eef04" 
-                  alt="Home" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-                  <span className="text-white font-semibold text-xl">Home</span>
-                </div>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </section>
+    
 
       {/* Newsletter Section */}
       <section className="py-16 bg-textPrimary text-white">
