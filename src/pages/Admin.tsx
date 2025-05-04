@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { 
   getAllProducts, 
-  addProduct, 
+  addProduct,
+  deleteProduct, 
 } from "@/services/productService";
 import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
@@ -84,9 +85,20 @@ const AdminProducts = () => {
   const loadProducts = async () => {
     try {
       const result = await getAllProducts(currentPage, 10);
-      console.log('Fetched products:', result.products); 
-      setProducts(result.products);
-      setTotalPages(result.totalPages);
+      console.log('Fetched Result:', result);  // Log the result to verify its structure
+      
+      if (result && result.products) {
+        console.log('Fetched Products:', result.products);  // Check the products array
+        setProducts(result.products);
+        setTotalPages(result.totalPages);
+      } else {
+        console.error('No products found in the response');
+        toast({
+          title: "Error",
+          description: "Failed to load products",
+          variant: "destructive",
+        });
+      }
     } catch (error) {
       console.error('Error loading products:', error);
       toast({
@@ -96,6 +108,7 @@ const AdminProducts = () => {
       });
     }
   };
+  
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -104,10 +117,7 @@ const AdminProducts = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      // Reset to page 1 when searching
       setCurrentPage(1);
-      // For a real app, this would call a search API endpoint
-      // For now, we'll just filter the results on the client
       const filtered = products.filter(product => 
         product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.description.toLowerCase().includes(searchQuery.toLowerCase())
@@ -152,9 +162,9 @@ const AdminProducts = () => {
     setIsDeleteDialogOpen(true);
   };
 
-  const handleDelete = () => {
-    if (productToDelete) {
-      // deleteProduct(productToDelete);
+  const handleDelete =async () => {
+    if (productToDelete) {  
+      await deleteProduct(productToDelete);
       
       toast({
         title: "Product deleted",
