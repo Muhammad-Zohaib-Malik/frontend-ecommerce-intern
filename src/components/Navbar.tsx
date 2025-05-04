@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -28,14 +27,13 @@ const Navbar = () => {
             ShopNest
           </Link>
 
-          
           {/* Desktop Search, Cart, and Account */}
           <div className="hidden md:flex items-center space-x-4">
             {/* Search */}
             <div className="relative">
-              <Input 
-                type="text" 
-                placeholder="Search products..." 
+              <Input
+                type="text"
+                placeholder="Search products..."
                 className="w-40 lg:w-60 rounded-full"
               />
               <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-textSecondary" />
@@ -90,10 +88,14 @@ const Navbar = () => {
           {/* Mobile menu button */}
           <div className="flex items-center space-x-4 md:hidden">
             {/* Mobile search button */}
-            <Button variant="ghost" size="icon" onClick={() => setIsSearchOpen(!isSearchOpen)}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+            >
               <Search className="h-5 w-5" />
             </Button>
-            
+
             {/* Mobile cart link */}
             <Link to="/cart" className="relative p-2">
               <ShoppingCart className="w-6 h-6 text-textPrimary" />
@@ -103,9 +105,17 @@ const Navbar = () => {
                 </span>
               )}
             </Link>
-            
-            <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
             </Button>
           </div>
         </div>
@@ -113,9 +123,9 @@ const Navbar = () => {
         {/* Mobile search bar */}
         {isSearchOpen && (
           <div className="mt-4 md:hidden">
-            <Input 
-              type="text" 
-              placeholder="Search products..." 
+            <Input
+              type="text"
+              placeholder="Search products..."
               className="w-full rounded-full"
             />
           </div>
@@ -124,53 +134,18 @@ const Navbar = () => {
         {/* Mobile menu */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 bg-white py-2 px-4 space-y-3 flex flex-col">
-            <Link 
+            <Link
               to="/"
               onClick={() => setIsMenuOpen(false)}
               className="text-textPrimary hover:text-brandPrimary transition-colors py-2 border-b border-gray-100"
             >
               Home
             </Link>
-            <Link 
-              to="/products"
-              onClick={() => setIsMenuOpen(false)}
-              className="text-textPrimary hover:text-brandPrimary transition-colors py-2 border-b border-gray-100"
-            >
-              Shop
-            </Link>
-            <Link 
-              to="/about"
-              onClick={() => setIsMenuOpen(false)}
-              className="text-textPrimary hover:text-brandPrimary transition-colors py-2 border-b border-gray-100"
-            >
-              About
-            </Link>
-            <Link 
-              to="/contact"
-              onClick={() => setIsMenuOpen(false)}
-              className="text-textPrimary hover:text-brandPrimary transition-colors py-2 border-b border-gray-100"
-            >
-              Contact
-            </Link>
-            
+
             {isAuthenticated ? (
               <>
-                <Link 
-                  to="/profile"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="text-textPrimary hover:text-brandPrimary transition-colors py-2 border-b border-gray-100"
-                >
-                  Profile
-                </Link>
-                <Link 
-                  to="/orders"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="text-textPrimary hover:text-brandPrimary transition-colors py-2 border-b border-gray-100"
-                >
-                  Orders
-                </Link>
                 {isAdmin && (
-                  <Link 
+                  <Link
                     to="/admin"
                     onClick={() => setIsMenuOpen(false)}
                     className="text-textPrimary hover:text-brandPrimary transition-colors py-2 border-b border-gray-100"
@@ -178,12 +153,12 @@ const Navbar = () => {
                     Admin Dashboard
                   </Link>
                 )}
-                <Button 
+                <Button
                   onClick={() => {
                     logout();
                     setIsMenuOpen(false);
-                  }} 
-                  variant="ghost" 
+                  }}
+                  variant="ghost"
                   className="justify-start px-0 text-red-500 hover:bg-transparent hover:text-red-600"
                 >
                   <LogOut className="w-4 h-4 mr-2" />
@@ -193,10 +168,14 @@ const Navbar = () => {
             ) : (
               <div className="flex space-x-2 pt-2">
                 <Button asChild variant="ghost" size="sm">
-                  <Link to="/login" onClick={() => setIsMenuOpen(false)}>Login</Link>
+                  <Link to="/login" onClick={() => setIsMenuOpen(false)}>
+                    Login
+                  </Link>
                 </Button>
                 <Button asChild variant="default" size="sm">
-                  <Link to="/register" onClick={() => setIsMenuOpen(false)}>Register</Link>
+                  <Link to="/register" onClick={() => setIsMenuOpen(false)}>
+                    Register
+                  </Link>
                 </Button>
               </div>
             )}
