@@ -7,6 +7,8 @@ import { ShoppingCart } from "lucide-react";
 
 interface ProductCardProps {
   product: Product;
+  _id: string;
+  
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
@@ -14,7 +16,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col">
-      <Link to={`/product/${product.id}`} className="block overflow-hidden h-48 bg-gray-100">
+      <Link to={`/product/${product._id}`} className="block overflow-hidden h-48 bg-gray-100">
         <img
           src={product.image}
           alt={product.name}
@@ -23,7 +25,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       </Link>
 
       <div className="p-4 flex-grow flex flex-col">
-        <Link to={`/product/${product.id}`} className="block">
+        <Link to={`/product/${product._id}`} className="block">
           <h3 className="font-medium text-textPrimary line-clamp-1 hover:text-brandPrimary transition-colors">
             {product.name}
           </h3>

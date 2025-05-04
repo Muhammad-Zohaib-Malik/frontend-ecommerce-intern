@@ -1,20 +1,14 @@
-
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { Search } from "lucide-react";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem
-} from "@/components/ui/select";
 
 interface ProductFiltersProps {
   selectedCategory: string;
+  selectedSort: string;
   searchTerm: string;
   priceRange: [number, number];
   onCategoryChange: (category: string) => void;
+  onSortChange: (sort: string) => void;
   onSearchChange: (search: string) => void;
   onSearchSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   onPriceRangeChange: (range: [number, number]) => void;
@@ -38,7 +32,7 @@ const ProductFilters = ({
             type="text"
             placeholder="Search products..."
             value={searchTerm}
-            onChange={(e) => onSearchChange(e.target.value)}
+            onChange={(e) => onSearchChange(e.target.value)} // Update search term as user types
             className="pr-10"
           />
           <button
@@ -51,7 +45,7 @@ const ProductFilters = ({
       </form>
 
 
-      {/* Price Range Filter */}
+    
       <div className="mb-6">
         <h4 className="font-medium text-sm mb-3 uppercase text-textSecondary">Price Range</h4>
         <div className="mb-4">
@@ -69,22 +63,7 @@ const ProductFilters = ({
           <span>${priceRange[1]}</span>
         </div>
       </div>
-
-      {/* Sort By */}
-      <div>
-        <h4 className="font-medium text-sm mb-3 uppercase text-textSecondary">Sort By</h4>
-        <Select defaultValue="newest">
-          <SelectTrigger>
-            <SelectValue placeholder="Sort by" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="newest">Newest</SelectItem>
-            <SelectItem value="price-asc">Price: Low to High</SelectItem>
-            <SelectItem value="price-desc">Price: High to Low</SelectItem>
-            <SelectItem value="popular">Most Popular</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+      
     </div>
   );
 };

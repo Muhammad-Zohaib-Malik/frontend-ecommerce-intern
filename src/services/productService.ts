@@ -5,7 +5,6 @@ import apiClient from './apiService';
 export const getAllProducts = async (
   page = 1,
   limit = 10,
-  category?: string,
   search?: string
 ) => {
   try {
@@ -17,13 +16,12 @@ export const getAllProducts = async (
 
     const response = await apiClient.get('/products', { params });
     
-    // Log the entire response to verify its structure
-    console.log('API Response:', response.data);
+  
 
-    // Assuming the response is directly an array of products
-    const products = response.data;  // The response may be an array of products directly
-    const totalPages = Math.ceil(products.length / limit);  // You may need to calculate totalPages based on the data
-    const totalCount = products.length;  // Total count of products in the dataset
+   
+    const products = response.data; 
+    const totalPages = Math.ceil(products.length / limit); 
+    const totalCount = products.length;  
 
     return {
       products,
@@ -38,7 +36,6 @@ export const getAllProducts = async (
 
 
 
-// Get all products without pagination (used for featured, home, etc.)
 export const getProducts = async (category?: string, search?: string) => {
   try {
     const params: Record<string, string> = {};

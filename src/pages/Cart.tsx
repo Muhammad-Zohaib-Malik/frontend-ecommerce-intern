@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   MinusIcon,
   PlusIcon,
@@ -22,15 +21,6 @@ const Cart = () => {
     setDiscount(0);
   }, [cart]);
 
-  const handleCouponApply = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Apply mock discount for "DISCOUNT20" coupon
-    if (couponCode.toUpperCase() === "DISCOUNT20") {
-      setDiscount(totalPrice * 0.2);
-    } else {
-      setDiscount(0);
-    }
-  };
 
   if (cart.length === 0) {
     return (
@@ -74,11 +64,11 @@ const Cart = () => {
                     <div className="grid sm:grid-cols-5 gap-4">
                       {/* Product Info */}
                       <div className="sm:col-span-2 flex">
-                        <Link to={`/product/${item.product.id}`} className="w-20 h-20 bg-gray-100 rounded flex-shrink-0 overflow-hidden">
+                        <Link to={`/product/${item.product._id}`} className="w-20 h-20 bg-gray-100 rounded flex-shrink-0 overflow-hidden">
                           <img src={item.product.image} alt={item.product.name} className="w-full h-full object-cover" />
                         </Link>
                         <div className="ml-4">
-                          <Link to={`/product/${item.product.id}`} className="font-medium text-textPrimary hover:text-brandPrimary transition-colors">
+                          <Link to={`/product/${item.product._id}`} className="font-medium text-textPrimary hover:text-brandPrimary transition-colors">
                             {item.product.name}
                           </Link>
                           <div className="text-sm text-textSecondary mt-1">
@@ -87,7 +77,7 @@ const Cart = () => {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => removeFromCart(item.product.id)}
+                            onClick={() => removeFromCart(item.product._id)}
                             className="text-red-500 hover:text-red-600 hover:bg-red-50 p-0 h-auto mt-2 text-xs sm:hidden"
                           >
                             <Trash2 className="h-3 w-3 mr-1" />
@@ -178,92 +168,8 @@ const Cart = () => {
           </div>
         </div>
 
-        {/* Order Summary */}
-        <div className="lg:col-span-1">
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
 
-            <div className="space-y-3 mb-6">
-              <div className="flex justify-between">
-                <span className="text-textSecondary">Subtotal</span>
-                <span>${totalPrice.toFixed(2)}</span>
-              </div>
-              {discount > 0 && (
-                <div className="flex justify-between">
-                  <span className="text-textSecondary">Discount</span>
-                  <span className="text-green-600">-${discount.toFixed(2)}</span>
-                </div>
-              )}
-              <div className="flex justify-between">
-                <span className="text-textSecondary">Shipping</span>
-                <span>{totalPrice >= 100 ? "Free" : "$10.00"}</span>
-              </div>
-              <div className="border-t pt-3 mt-3">
-                <div className="flex justify-between font-semibold">
-                  <span>Total</span>
-                  <span>
-                    ${(totalPrice - discount + (totalPrice >= 100 ? 0 : 10)).toFixed(2)}
-                  </span>
-                </div>
-                <div className="text-xs text-textSecondary mt-1">
-                  Tax included
-                </div>
-              </div>
-            </div>
-
-            {/* Coupon */}
-            <form onSubmit={handleCouponApply} className="mb-6">
-              <div className="text-sm mb-2">Apply Coupon Code</div>
-              <div className="flex gap-2">
-                <Input
-                  placeholder="Coupon code"
-                  value={couponCode}
-                  onChange={(e) => setCouponCode(e.target.value)}
-                  className="flex-grow"
-                />
-                <Button type="submit" variant="outline">
-                  Apply
-                </Button>
-              </div>
-              {couponCode && couponCode.toUpperCase() === "DISCOUNT20" && discount > 0 ? (
-                <div className="text-green-600 text-sm mt-2">
-                  Coupon applied: 20% off
-                </div>
-              ) : couponCode && couponCode.toUpperCase() !== "DISCOUNT20" ? (
-                <div className="text-red-500 text-sm mt-2">
-                  Invalid coupon code
-                </div>
-              ) : null}
-              <div className="text-xs text-textSecondary mt-2">
-                Try "DISCOUNT20" for 20% off
-              </div>
-            </form>
-
-            {/* Checkout Button */}
-            <Button
-              className="w-full bg-brandPrimary hover:bg-brandSecondary"
-              size="lg"
-            >
-              Proceed to Checkout
-            </Button>
-            
-            {/* Payment Options */}
-            <div className="mt-4 text-center">
-              <div className="text-sm text-textSecondary mb-2">We accept:</div>
-              <div className="flex justify-center space-x-2">
-                {/* Mock payment icons */}
-                {["visa", "mastercard", "amex", "paypal"].map((method) => (
-                  <div 
-                    key={method} 
-                    className="w-12 h-8 bg-gray-100 rounded flex items-center justify-center text-xs text-textSecondary"
-                  >
-                    {method}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+        
       </div>
     </div>
   );

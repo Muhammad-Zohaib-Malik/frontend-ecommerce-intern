@@ -16,7 +16,7 @@ const Navbar = () => {
   const { isAuthenticated, user, logout, isAdmin } = useAuth();
   const { totalItems } = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
 
   return (
     <nav className="bg-white shadow-sm py-4 sticky top-0 z-50">
@@ -29,15 +29,7 @@ const Navbar = () => {
 
           {/* Desktop Search, Cart, and Account */}
           <div className="hidden md:flex items-center space-x-4">
-            {/* Search */}
-            <div className="relative">
-              <Input
-                type="text"
-                placeholder="Search products..."
-                className="w-40 lg:w-60 rounded-full"
-              />
-              <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-textSecondary" />
-            </div>
+            
 
             {/* Cart */}
             <Link to="/cart" className="relative p-2">
@@ -87,15 +79,6 @@ const Navbar = () => {
 
           {/* Mobile menu button */}
           <div className="flex items-center space-x-4 md:hidden">
-            {/* Mobile search button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-            >
-              <Search className="h-5 w-5" />
-            </Button>
-
             {/* Mobile cart link */}
             <Link to="/cart" className="relative p-2">
               <ShoppingCart className="w-6 h-6 text-textPrimary" />
@@ -120,16 +103,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile search bar */}
-        {isSearchOpen && (
-          <div className="mt-4 md:hidden">
-            <Input
-              type="text"
-              placeholder="Search products..."
-              className="w-full rounded-full"
-            />
-          </div>
-        )}
+        
 
         {/* Mobile menu */}
         {isMenuOpen && (

@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { 
-  getAllProducts, 
+import {
+  getAllProducts,
   addProduct,
-  deleteProduct, 
+  deleteProduct,
+  updateProduct,
 } from "@/services/productService";
 import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
@@ -32,14 +33,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useToast } from "@/components/ui/use-toast";
-import { 
-  Plus, 
-  MoreHorizontal, 
-  Pencil, 
-  Trash2, 
-  ChevronLeft, 
-  ChevronRight, 
-  Search 
+import {
+  Plus,
+  MoreHorizontal,
+  Pencil,
+  Trash2,
+  ChevronLeft,
+  ChevronRight,
+  Search,
 } from "lucide-react";
 
 interface ProductFormData {
@@ -62,7 +63,7 @@ const initialFormData: ProductFormData = {
   image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
   description: "",
   stock: 0,
-  featured: false
+  featured: false,
 };
 
 const AdminProducts = () => {
@@ -75,7 +76,7 @@ const AdminProducts = () => {
   const [formMode, setFormMode] = useState<"add" | "edit">("add");
   const [productToDelete, setProductToDelete] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   const { toast } = useToast();
 
   useEffect(() => {
@@ -85,14 +86,14 @@ const AdminProducts = () => {
   const loadProducts = async () => {
     try {
       const result = await getAllProducts(currentPage, 10);
-      console.log('Fetched Result:', result);  // Log the result to verify its structure
-      
+      console.log("Fetched Result:", result);
+
       if (result && result.products) {
-        console.log('Fetched Products:', result.products);  // Check the products array
+        console.log("Fetched Products:", result.products);
         setProducts(result.products);
         setTotalPages(result.totalPages);
       } else {
-        console.error('No products found in the response');
+        console.error("No products found in the response");
         toast({
           title: "Error",
           description: "Failed to load products",
@@ -100,7 +101,7 @@ const AdminProducts = () => {
         });
       }
     } catch (error) {
-      console.error('Error loading products:', error);
+      console.error("Error loading products:", error);
       toast({
         title: "Error",
         description: "Failed to load products",
@@ -108,7 +109,6 @@ const AdminProducts = () => {
       });
     }
   };
-  
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -118,7 +118,7 @@ const AdminProducts = () => {
     e.preventDefault();
     if (searchQuery.trim()) {
       setCurrentPage(1);
-      const filtered = products.filter(product => 
+      const filtered = products.filter((product) =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.description.toLowerCase().includes(searchQuery.toLowerCase())
       );
@@ -142,7 +142,7 @@ const AdminProducts = () => {
 
   const openEditDialog = (product: Product) => {
     setFormData({
-      id: product.id,
+      id: product._id,
       name: product.name,
       price: product.price,
       salePrice: product.salePrice,
@@ -151,7 +151,7 @@ const AdminProducts = () => {
       description: product.description,
       stock: product.stock,
       featured: product.featured || false,
-      rating: product.rating
+      rating: product.rating,
     });
     setFormMode("edit");
     setIsDialogOpen(true);
@@ -162,15 +162,15 @@ const AdminProducts = () => {
     setIsDeleteDialogOpen(true);
   };
 
-  const handleDelete =async () => {
-    if (productToDelete) {  
+  const handleDelete = async () => {
+    if (productToDelete) {
       await deleteProduct(productToDelete);
-      
+
       toast({
         title: "Product deleted",
         description: "The product has been deleted successfully.",
       });
-      
+
       setProductToDelete(null);
       setIsDeleteDialogOpen(false);
       loadProducts();
@@ -179,42 +179,40 @@ const AdminProducts = () => {
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
-    
+
     if (type === "checkbox") {
       const checked = (e.target as HTMLInputElement).checked;
-      setFormData(prev => ({ ...prev, [name]: checked }));
+      setFormData((prev) => ({ ...prev, [name]: checked }));
     } else if (name === "price" || name === "salePrice" || name === "stock") {
-      setFormData(prev => ({ ...prev, [name]: parseFloat(value) || 0 }));
+      setFormData((prev) => ({ ...prev, [name]: parseFloat(value) || 0 }));
     } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       if (formMode === "add") {
-        // Add new product
         const { id, ...productWithoutId } = formData;
         addProduct(productWithoutId);
-        
+
         toast({
           title: "Product added",
           description: "The product has been added successfully.",
         });
       } else {
-        // Update existing product
         if (!formData.id) return;
-        
-        // updateProduct(formData as Product);
-        
+
+        updateProduct(formData.id as string, formData as Product);
+
         toast({
           title: "Product updated",
           description: "The product has been updated successfully.",
         });
       }
-      
+
       setIsDialogOpen(false);
       loadProducts();
     } catch (error) {
@@ -247,7 +245,10 @@ const AdminProducts = () => {
               <Search className="h-4 w-4 text-gray-400" />
             </button>
           </form>
-          <Button onClick={openAddDialog} className="w-full md:w-auto bg-brandPrimary hover:bg-brandSecondary">
+          <Button
+            onClick={openAddDialog}
+            className="w-full md:w-auto bg-brandPrimary hover:bg-brandSecondary"
+          >
             <Plus className="h-4 w-4 mr-2" />
             Add Product
           </Button>
@@ -269,7 +270,7 @@ const AdminProducts = () => {
             <TableBody>
               {products?.length > 0 ? (
                 products.map((product) => (
-                  <TableRow key={product.id}>
+                  <TableRow key={product._id}>
                     <TableCell>
                       <img
                         src={product.image}
@@ -282,8 +283,12 @@ const AdminProducts = () => {
                     <TableCell>
                       {product.salePrice ? (
                         <div>
-                          <span className="text-brandPrimary font-medium">${product.salePrice.toFixed(2)}</span>
-                          <span className="text-gray-400 line-through text-sm ml-2">${product.price.toFixed(2)}</span>
+                          <span className="text-brandPrimary font-medium">
+                            ${product.salePrice.toFixed(2)}
+                          </span>
+                          <span className="text-gray-400 line-through text-sm ml-2">
+                            ${product.price.toFixed(2)}
+                          </span>
                         </div>
                       ) : (
                         <span>${product.price.toFixed(2)}</span>
@@ -292,26 +297,31 @@ const AdminProducts = () => {
                     <TableCell>{product.stock}</TableCell>
                     <TableCell>
                       {product.featured ? (
-                        <span className="bg-green-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded">Yes</span>
+                        <span className="bg-green-100 text-green-800 py-1 px-2 rounded-full text-xs">
+                          Featured
+                        </span>
                       ) : (
-                        <span className="bg-gray-100 text-gray-800 text-xs font-medium px-2 py-0.5 rounded">No</span>
+                        <span className="bg-gray-100 text-gray-800 py-1 px-2 rounded-full text-xs">
+                          Not Featured
+                        </span>
                       )}
                     </TableCell>
                     <TableCell className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
+                          <Button variant="outline" size="icon">
+                            <MoreHorizontal className="h-5 w-5" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem onClick={() => openEditDialog(product)}>
-                            <Pencil className="h-4 w-4 mr-2" />
+                            <Pencil className="mr-2 h-4 w-4" />
                             Edit
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => confirmDelete(product.id)} className="text-red-600">
-                            <Trash2 className="h-4 w-4 mr-2" />
+                          <DropdownMenuItem
+                            onClick={() => confirmDelete(product._id)}
+                          >
+                            <Trash2 className="mr-2 h-4 w-4" />
                             Delete
                           </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -321,7 +331,7 @@ const AdminProducts = () => {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center py-4">
+                  <TableCell colSpan={7} className="text-center">
                     No products found.
                   </TableCell>
                 </TableRow>
@@ -331,172 +341,148 @@ const AdminProducts = () => {
         </div>
 
         <div className="flex justify-between items-center mt-6">
-          <div className="text-sm text-gray-500">
-            Showing page {currentPage} of {totalPages}
-          </div>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
+          <Button
+            disabled={currentPage === 1}
+            onClick={() => handlePageChange(currentPage - 1)}
+            className="bg-gray-200"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+          <Button
+            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(currentPage + 1)}
+            className="bg-gray-200"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
         </div>
       </div>
 
-      {/* Product Form Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent>
           <DialogHeader>
-            <DialogTitle>
-              {formMode === "add" ? "Add New Product" : "Edit Product"}
-            </DialogTitle>
+            <DialogTitle>{formMode === "add" ? "Add Product" : "Edit Product"}</DialogTitle>
             <DialogDescription>
               {formMode === "add"
-                ? "Add a new product to your store."
-                : "Update product details."}
+                ? "Fill the form to add a new product."
+                : "Edit the product details."}
             </DialogDescription>
           </DialogHeader>
-
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Product Name</Label>
-                <Input
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleFormChange}
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="category">Category</Label>
-                <Input
-                  id="category"
-                  name="category"
-                  value={formData.category}
-                  onChange={handleFormChange}
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="price">Price ($)</Label>
-                <Input
-                  id="price"
-                  name="price"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={formData.price}
-                  onChange={handleFormChange}
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="salePrice">Sale Price ($) (Optional)</Label>
-                <Input
-                  id="salePrice"
-                  name="salePrice"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={formData.salePrice || ""}
-                  onChange={handleFormChange}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="stock">Stock</Label>
-                <Input
-                  id="stock"
-                  name="stock"
-                  type="number"
-                  min="0"
-                  value={formData.stock}
-                  onChange={handleFormChange}
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="image">Image URL</Label>
+            <div>
+              <Label htmlFor="name">Product Name</Label>
               <Input
-                id="image"
-                name="image"
-                value={formData.image}
+                id="name"
+                name="name"
+                type="text"
+                value={formData.name}
                 onChange={handleFormChange}
                 required
               />
             </div>
-
-            <div className="space-y-2">
+            <div>
+              <Label htmlFor="price">Price</Label>
+              <Input
+                id="price"
+                name="price"
+                type="number"
+                value={formData.price}
+                onChange={handleFormChange}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="salePrice">Sale Price</Label>
+              <Input
+                id="salePrice"
+                name="salePrice"
+                type="number"
+                value={formData.salePrice}
+                onChange={handleFormChange}
+              />
+            </div>
+            <div>
+              <Label htmlFor="category">Category</Label>
+              <Input
+                id="category"
+                name="category"
+                type="text"
+                value={formData.category}
+                onChange={handleFormChange}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="image">Product Image URL</Label>
+              <Input
+                id="image"
+                name="image"
+                type="text"
+                value={formData.image}
+                onChange={handleFormChange}
+              />
+            </div>
+            <div>
               <Label htmlFor="description">Description</Label>
               <Textarea
                 id="description"
                 name="description"
-                rows={4}
                 value={formData.description}
                 onChange={handleFormChange}
                 required
               />
             </div>
-
-            <div className="flex items-center gap-2">
+            <div>
+              <Label htmlFor="stock">Stock</Label>
+              <Input
+                id="stock"
+                name="stock"
+                type="number"
+                value={formData.stock}
+                onChange={handleFormChange}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="featured">Featured</Label>
               <Input
                 id="featured"
                 name="featured"
                 type="checkbox"
                 checked={formData.featured}
-                onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                className="w-4 h-4"
+                onChange={handleFormChange}
               />
-              <Label htmlFor="featured">Featured Product</Label>
             </div>
-
             <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
+              <Button type="submit">{formMode === "add" ? "Add" : "Update"}</Button>
+              <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
                 Cancel
-              </Button>
-              <Button type="submit" className="bg-brandPrimary hover:bg-brandSecondary">
-                {formMode === "add" ? "Add Product" : "Update Product"}
               </Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation Dialog */}
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>Confirm Delete</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this product? This action cannot be undone.
+              Are you sure you want to delete this product? This action cannot
+              be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
               Cancel
             </Button>
-            <Button variant="destructive" onClick={handleDelete}>
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+            >
               Delete
             </Button>
           </DialogFooter>
