@@ -1,8 +1,8 @@
 
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
+
 import {
   MinusIcon,
   PlusIcon,
@@ -13,13 +13,8 @@ import {
 
 const Cart = () => {
   const { cart, removeFromCart, updateQuantity, totalPrice } = useCart();
-  const [couponCode, setCouponCode] = useState("");
-  const [discount, setDiscount] = useState(0);
 
-  useEffect(() => {
-    // Reset discount when cart changes
-    setDiscount(0);
-  }, [cart]);
+
 
 
   if (cart.length === 0) {
@@ -64,11 +59,11 @@ const Cart = () => {
                     <div className="grid sm:grid-cols-5 gap-4">
                       {/* Product Info */}
                       <div className="sm:col-span-2 flex">
-                        <Link to={`/product/${item.product._id}`} className="w-20 h-20 bg-gray-100 rounded flex-shrink-0 overflow-hidden">
+                        <Link to={`/product/${item.product.id}`} className="w-20 h-20 bg-gray-100 rounded flex-shrink-0 overflow-hidden">
                           <img src={item.product.image} alt={item.product.name} className="w-full h-full object-cover" />
                         </Link>
                         <div className="ml-4">
-                          <Link to={`/product/${item.product._id}`} className="font-medium text-textPrimary hover:text-brandPrimary transition-colors">
+                          <Link to={`/product/${item.product.id}`} className="font-medium text-textPrimary hover:text-brandPrimary transition-colors">
                             {item.product.name}
                           </Link>
                           <div className="text-sm text-textSecondary mt-1">
@@ -77,7 +72,7 @@ const Cart = () => {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => removeFromCart(item.product._id)}
+                            onClick={() => removeFromCart(item.product.id)}
                             className="text-red-500 hover:text-red-600 hover:bg-red-50 p-0 h-auto mt-2 text-xs sm:hidden"
                           >
                             <Trash2 className="h-3 w-3 mr-1" />
@@ -167,8 +162,6 @@ const Cart = () => {
             </Button>
           </div>
         </div>
-
-
         
       </div>
     </div>
