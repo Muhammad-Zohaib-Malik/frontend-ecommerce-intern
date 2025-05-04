@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { 
   getAllProducts, 
   addProduct, 
-  // updateProduct, 
-  // deleteProduct 
 } from "@/services/productService";
 import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
@@ -86,6 +84,7 @@ const AdminProducts = () => {
   const loadProducts = async () => {
     try {
       const result = await getAllProducts(currentPage, 10);
+      console.log('Fetched products:', result.products); 
       setProducts(result.products);
       setTotalPages(result.totalPages);
     } catch (error) {

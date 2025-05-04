@@ -11,10 +11,6 @@ export const getAllProducts = async (
   try {
     const params: Record<string, string | number> = { page, limit };
 
-    if (category && category !== 'all') {
-      params.category = category;
-    }
-
     if (search) {
       params.search = search;
     }
@@ -87,4 +83,23 @@ export const addProduct = async (productData: Omit<Product, 'id'>) => {
   }
 };
 
-// Update existing product (admin only)
+
+export const updateProduct = async (id: string, updates: Partial<Product>): Promise<Product> => {
+  try {
+    const response = await apiClient.put<Product>(`/products/${id}`, updates);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating product:', error);
+    throw error;
+  }
+};
+
+export const deleteProduct = async (id: string): Promise<{ message: string }> => {
+  try {
+    const response = await apiClient.delete<{ message: string }>(`/products/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating product:', error);
+    throw error;
+  }
+};
