@@ -1,73 +1,73 @@
-# Welcome to your Lovable project
 
-## Project info
+# Frontend - E-Commerce Application
 
-**URL**: https://lovable.dev/projects/746453fe-586c-44be-8574-2dee66e57a54
+#deploy
+https://frontend-ecommerce-intern.vercel.app/
 
-## How can I edit this code?
+## Overview
 
-There are several ways of editing your application.
+This is the frontend of an e-commerce application built using React. The application fetches and displays product data from a backend API with pagination, category filtering, and search functionality.
 
-**Use Lovable**
+## Technologies Used
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/746453fe-586c-44be-8574-2dee66e57a54) and start prompting.
+- **React**: JavaScript library for building user interfaces.
+- **Axios**: Promise-based HTTP client for making API requests.
+- **Tailwind CSS**: Utility-first CSS framework for styling.
+- **React Router**: For routing and navigation.
+- **React Context API**: For managing global state across components.
 
-Changes made via Lovable will be committed automatically to this repo.
+## Features
 
-**Use your preferred IDE**
+- **Product Listing**: Displays a paginated list of products.
+- **Search Filter**: Allows users to search for products by name.
+- **Pagination**: Users can navigate between pages of products.
+- **Responsive Design**: The app is designed to work across different screen sizes.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Clone the repository to your local machine:
 
-Follow these steps:
+   ```bash
+   git clone https://github.com/Muhammad-Zohaib-Malik/frontend-ecommerce-intern
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+2. Navigate into the project directory:
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+   ```bash
+   cd client
+   ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+3. Install the dependencies:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+   ```bash
+   npm install
+   ```
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+   ```
+
+## API Endpoints
+
+The frontend communicates with the backend using the following API endpoint to fetch products:
+
+### GET `/products`
+
+Fetches a list of products with pagination, category filtering, and search functionality.
+
+#### Query Parameters:
+
+- **`page`**: The current page of products to fetch (default is 1).
+- **`limit`**: The number of products per page (default is 5).
+- **`search`**: The search term to filter products by name.
+
+#### Example:
+
+```bash
+GET /products?page=1&limit=5&search=shirt&category=clothing
 ```
 
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/746453fe-586c-44be-8574-2dee66e57a54) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
