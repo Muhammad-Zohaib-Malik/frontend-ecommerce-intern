@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -13,47 +12,39 @@ const Pagination = ({ currentPage, totalPages, onPageChange, className = "" }: P
   const generatePageNumbers = () => {
     const pageNumbers = [];
     const maxPagesToShow = 5;
-    
+
     if (totalPages <= maxPagesToShow) {
-      // Show all pages if there are fewer than maxPagesToShow
       for (let i = 1; i <= totalPages; i++) {
         pageNumbers.push(i);
       }
     } else {
-      // Always show first page
       pageNumbers.push(1);
-      
-      // Calculate start and end of the middle section
+
       let startPage = Math.max(2, currentPage - 1);
       let endPage = Math.min(totalPages - 1, currentPage + 1);
-      
-      // Adjust to always show 3 pages in the middle
+
       if (startPage === 2) {
         endPage = Math.min(4, totalPages - 1);
       }
       if (endPage === totalPages - 1) {
         startPage = Math.max(2, totalPages - 3);
       }
-      
-      // Add ellipsis if needed before middle section
+
       if (startPage > 2) {
         pageNumbers.push("...");
       }
-      
-      // Add middle section
+
       for (let i = startPage; i <= endPage; i++) {
         pageNumbers.push(i);
       }
-      
-      // Add ellipsis if needed after middle section
+
       if (endPage < totalPages - 1) {
         pageNumbers.push("...");
       }
-      
-      // Always show last page
+
       pageNumbers.push(totalPages);
     }
-    
+
     return pageNumbers;
   };
 
@@ -70,7 +61,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, className = "" }: P
       >
         <ChevronLeft className="h-4 w-4" />
       </Button>
-      
+
       <div className="flex space-x-2">
         {generatePageNumbers().map((page, index) => {
           if (page === "...") {
@@ -89,7 +80,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, className = "" }: P
           );
         })}
       </div>
-      
+
       <Button
         variant="outline"
         size="icon"

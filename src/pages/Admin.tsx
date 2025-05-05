@@ -85,7 +85,7 @@ const AdminProducts = () => {
 
   const loadProducts = async () => {
     try {
-      const result = await getAllProducts(currentPage, 10);
+      const result = await getAllProducts(currentPage, 5);
       console.log("Fetched Result:", result);
 
       if (result && result.products) {
